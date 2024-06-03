@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+
 echo "Robot planning tester v 1.0 UwU"
 cat "./test/cat.txt"
-usleep 100000
+sleep 1
 echo "Building project... (python)"
 sleep 1
 bash ./compile.sh
@@ -14,4 +15,4 @@ sleep 1
 echo "Produced: './test/out.json'"
 sleep 1
 echo "Processing file:"
-
+python ./test/process.py
