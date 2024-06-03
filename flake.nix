@@ -25,6 +25,10 @@
                 ] ++
                 (with pkgs.python311Packages; [
                     pybind11
+                    tkinter
+                    pandas
+                    numpy
+                    matplotlib
                 ]);
             };
         });

@@ -15,8 +15,6 @@ def main():
     print(f"Planning time (max, avg): {avg_planning_time:.2f}, {max_planning_time:.2f}")
     print(f"Costs sum: {sum_of_costs}")
 
-
-
 if __name__ == "__main__":
     main()
 
