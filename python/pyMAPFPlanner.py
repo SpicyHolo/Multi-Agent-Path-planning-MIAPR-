@@ -14,6 +14,7 @@ class pyMAPFPlanner:
         self.reservations = set()  # {(location, timestep)} means that location is occupied at timestep
         self.W = 10
         self.K = 5
+        self.goal_reached_in_steps = 6
         self.master_plan = []
         print("pyMAPFPlanner created!  python debug")
 
@@ -40,12 +41,15 @@ class pyMAPFPlanner:
         """
         if self.master_plan == []:
             self.reservations = set()
+            self.goal_reached_in_steps = self.K
             for i in range(len(self.env.curr_states)):
-                self.reservations.add((self.env.curr_states[i].location, self.env.curr_timestep + 1))
-                self.reservations.add((self.env.curr_states[i].location, self.env.curr_timestep))
+                for j in range(self.K):
+                    self.reservations.add((self.env.curr_states[i].location, self.env.curr_timestep + j))
             self.master_plan = self.naive_a_star(100)
-        actions = self.master_plan.pop()
-
+        try:
+            actions = self.master_plan.pop()
+        except:
+            [MAPF.Action.W for i in range(len(self.env.curr_states))] 
         # example of only using single-agent search
         return actions
         return self.sample_priority_planner(time_limit)
@@ -55,11 +59,12 @@ class pyMAPFPlanner:
     
 
     def naive_a_star(self,time_limit):
-        print("I am planning")
+        # print("I am planning")
+        print(self.env.curr_timestep)
         actions = [[MAPF.Action.W for i in range(len(self.env.curr_states))] for _ in range(self.K)]
         start_timestep = self.env.curr_timestep
         for i in range(0, self.env.num_of_agents):
-            print("python start plan for agent ", i, end=" ")
+            # print("python start plan for agent ", i, end=" ")
             self.robot_nr = i
             path = []
             if len(self.env.goal_locations[i]) == 0:
@@ -67,12 +72,12 @@ class pyMAPFPlanner:
                 path.append(
                     (self.env.curr_states[i].location, self.env.curr_states[i].orientation))
             else:
-                print(" with start and goal: ", end=" ")
+                # print(" with start and goal: ", end=" ")
                 path = self.single_agent_plan(
                     self.env.curr_states[i].location, self.env.curr_states[i].orientation, self.env.goal_locations[i][0][0], start_timestep)
 
-            print("current location:", path[0][0],
-                  "current direction: ", path[0][1])
+            # print("current location:", path[0][0],
+            #       "current direction: ", path[0][1])
             for time in range(self.K):
                 if len(path) <= time:
                     break
@@ -96,18 +101,19 @@ class pyMAPFPlanner:
                             elif incr == -1 or incr == 3:
                                 actions[time][i] = MAPF.Action.CCR
                     except:
+                        continue
                         print(path)
                         print(time)
         # print(actions)
-        actions = [np.array([int(a) for a in actions[time]], dtype=int) for time in range(self.K)]
+        actions = [np.array([int(a) for a in actions[time]], dtype=int) for time in range(self.goal_reached_in_steps)]
         actions.reverse()
-        print(actions)
+        # print(actions)
         return actions
         # print(actions)
         # return np.array(actions, dtype=int)
 
     def single_agent_plan(self, start: int, start_direct: int, end: int, start_timestep: int):
-        print(start, start_direct, end)
+        # print(start, start_direct, end)
         timestep = start_timestep
         path = []
         # AStarNode (u,dir,t,f)
@@ -118,8 +124,7 @@ class pyMAPFPlanner:
         close_list = set()
         parent = {(start, start_direct): None}
         all_nodes[start*4+start_direct] = s
-        while not open_list.empty():
-
+        while not open_list.empty():    
             curr = (open_list.get())[1]
             timestep = curr[4]
             close_list.add(curr[0]*4+curr[1])
@@ -143,13 +148,22 @@ class pyMAPFPlanner:
                 open_list.put([next_node[3]+next_node[2], next_node])
             
         timestep_temp = start_timestep
+        if len(path) < self.goal_reached_in_steps and len(path) != 0:
+            if len(path)== 0:
+                self.goal_reached_in_steps = 1
+            self.goal_reached_in_steps = len(path)
+
         for i in range(self.W):
             timestep_temp += 1
-            try:
+            if len(path) > i:
                 self.reservations.add((path[i][0], timestep_temp))
                 self.reservations.add((path[i][0], timestep_temp - 1))
-            except:
-                self.reservations.add((path[-1][0], timestep_temp))
+                self.reservations.add((path[i][0], timestep_temp + 1))
+            else:
+                try:
+                    self.reservations.add((path[-1][0], timestep_temp))
+                except:
+                    self.reservations.add((start, timestep_temp))
         return path[:self.K]
 
     def getManhattanDistance(self, loc1: int, loc2: int) -> int:
@@ -164,9 +178,6 @@ class pyMAPFPlanner:
         loc_y = loc % self.env.cols
 
         if(loc_x >= self.env.rows or loc_y >= self.env.cols or self.env.map[loc] == 1):
-            if (self.robot_nr == 4):
-                print(self.env.map[loc])
-                print(loc_x, loc_y)
             return False
         if((loc, timestep) in self.reservations): #check if the loc is occupied by another robot
             return False

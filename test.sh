@@ -42,7 +42,7 @@ if [ "$PLAN" = true ]; then
   echo "Planning on small test case"
   sleep 1
 
-  ./build/lifelong --inputFile ./example_problems/random.domain/random_20.json \
+  ./build/lifelong --inputFile ./example_problems/random.domain/random_100.json \
     --simulationTime 50 \
     --logFile ./test/log.txt \
     --output ./test/out.json\
