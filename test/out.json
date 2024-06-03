@@ -104,10 +104,11 @@
             "E"
         ]
     ],
-    "numTaskFinished": 0,
+    "numTaskFinished": 1,
     "sumOfCost": 1000,
     "makespan": 50,
     "actualPaths": [
+<<<<<<< HEAD
         "F,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W",
         "R,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W",
         "C,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W",
@@ -202,301 +203,307 @@
         0.275265327,
         0.260268452,
         0.267743196
+=======
+        "F,F,F,W,W,C,W,W,W,W,C,W,W,W,W,F,W,W,W,W,F,F,W,W,W,R,R,R,W,W,C,W,W,W,W,F,F,W,W,W,C,W,W,W,W,C,W,W,W,W",
+        "R,R,R,W,W,C,W,W,W,W,C,W,W,W,W,F,W,W,W,W,C,C,W,W,W,R,R,R,W,W,R,W,W,W,W,R,R,W,W,W,C,W,W,W,W,F,W,W,W,W",
+        "C,C,C,W,W,R,W,W,W,W,F,W,W,W,W,F,W,W,W,W,C,C,W,W,W,R,R,R,W,W,C,W,W,W,W,C,C,W,W,W,R,W,W,W,W,F,W,W,W,W",
+        "C,C,C,W,W,R,W,W,W,W,F,W,W,W,W,F,W,W,W,W,F,F,W,W,W,R,R,R,W,W,C,W,W,W,W,F,F,W,W,W,C,W,W,W,W,F,W,W,W,W",
+        "F,F,F,W,W,C,W,W,W,W,F,W,W,W,W,F,W,W,W,W,F,F,W,W,W,F,F,F,W,W,R,W,W,W,W,F,F,W,W,W,F,W,W,W,W,F,W,W,W,W",
+        "R,R,R,W,W,C,W,W,W,W,C,W,W,W,W,F,W,W,W,W,C,C,W,W,W,F,F,F,W,W,C,W,W,W,W,C,C,W,W,W,R,W,W,W,W,F,W,W,W,W",
+        "C,C,C,W,W,R,W,W,W,W,F,W,W,W,W,F,W,W,W,W,R,R,W,W,W,C,C,C,W,W,R,W,W,W,W,R,R,W,W,W,C,W,W,W,W,F,W,W,W,W",
+        "F,F,F,W,W,R,W,W,W,W,F,W,W,W,W,F,W,W,W,W,F,F,W,W,W,F,F,F,W,W,F,W,W,W,W,F,F,W,W,W,F,W,W,W,W,F,W,W,W,W",
+        "R,R,R,W,W,C,W,W,W,W,F,W,W,W,W,C,W,W,W,W,F,F,W,W,W,F,F,F,W,W,F,W,W,W,W,R,R,W,W,W,C,W,W,W,W,F,W,W,W,W",
+        "R,R,R,W,W,F,W,W,W,W,R,W,W,W,W,F,W,W,W,W,F,F,W,W,W,R,R,R,W,W,C,W,W,W,W,C,C,W,W,W,R,W,W,W,W,F,W,W,W,W",
+        "R,R,R,W,W,C,W,W,W,W,F,W,W,W,W,F,W,W,W,W,C,C,W,W,W,F,F,F,W,W,R,W,W,W,W,F,F,W,W,W,F,W,W,W,W,R,W,W,W,W",
+        "R,R,R,W,W,R,W,W,W,W,F,W,W,W,W,F,W,W,W,W,F,F,W,W,W,F,F,F,W,W,F,W,W,W,W,F,F,W,W,W,R,W,W,W,W,F,W,W,W,W",
+        "C,C,C,W,W,R,W,W,W,W,R,W,W,W,W,F,W,W,W,W,R,R,W,W,W,C,C,C,W,W,R,W,W,W,W,R,R,W,W,W,C,W,W,W,W,C,W,W,W,W",
+        "R,R,R,W,W,C,W,W,W,W,C,W,W,W,W,F,W,W,W,W,R,R,W,W,W,C,C,C,W,W,C,W,W,W,W,C,C,W,W,W,R,W,W,W,W,F,W,W,W,W",
+        "C,C,C,W,W,R,W,W,W,W,F,W,W,W,W,R,W,W,W,W,F,F,W,W,W,F,F,F,W,W,R,W,W,W,W,F,F,W,W,W,C,W,W,W,W,F,W,W,W,W",
+        "R,R,R,W,W,C,W,W,W,W,C,W,W,W,W,F,W,W,W,W,F,F,W,W,W,C,C,C,W,W,F,W,W,W,W,R,R,W,W,W,F,W,W,W,W,F,W,W,W,W",
+        "C,C,C,W,W,R,W,W,W,W,F,W,W,W,W,F,W,W,W,W,F,F,W,W,W,R,R,R,W,W,C,W,W,W,W,F,F,W,W,W,C,W,W,W,W,F,W,W,W,W",
+        "F,F,F,W,W,F,W,W,W,W,R,W,W,W,W,F,W,W,W,W,F,F,W,W,W,C,C,C,W,W,R,W,W,W,W,F,F,W,W,W,C,W,W,W,W,C,W,W,W,W",
+        "C,C,C,W,W,R,W,W,W,W,F,W,W,W,W,F,W,W,W,W,F,F,W,W,W,R,R,R,W,W,R,W,W,W,W,R,R,W,W,W,C,W,W,W,W,F,W,W,W,W",
+        "R,R,R,W,W,C,W,W,W,W,C,W,W,W,W,F,W,W,W,W,R,R,W,W,W,C,C,C,W,W,C,W,W,W,W,C,C,W,W,W,R,W,W,W,W,F,W,W,W,W"
+    ],
+    "plannerPaths": [
+        "F,F,F,F,F,C,C,C,C,C,C,C,C,C,C,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,F,F,F,F,F,C,C,C,C,C,C,C,C,C,C",
+        "R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,F,F,F,F,F,C,C,C,C,C,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,C,C,C,C,C,F,F,F,F,F",
+        "C,C,C,C,C,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,C,C,C,C,C,R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,R,R,R,R,R,F,F,F,F,F",
+        "C,C,C,C,C,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,F,F,F,F,F,C,C,C,C,C,F,F,F,F,F",
+        "F,F,F,F,F,C,C,C,C,C,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F",
+        "R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,F,F,F,F,F,C,C,C,C,C,F,F,F,F,F,C,C,C,C,C,C,C,C,C,C,R,R,R,R,R,F,F,F,F,F",
+        "C,C,C,C,C,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,R,R,R,R,R,R,R,R,R,R,C,C,C,C,C,F,F,F,F,F",
+        "F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F",
+        "R,R,R,R,R,C,C,C,C,C,F,F,F,F,F,C,C,C,C,C,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,F,F,F,F,F",
+        "R,R,R,R,R,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,R,R,R,R,R,F,F,F,F,F",
+        "R,R,R,R,R,C,C,C,C,C,F,F,F,F,F,F,F,F,F,F,C,C,C,C,C,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R",
+        "R,R,R,R,R,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F",
+        "C,C,C,C,C,R,R,R,R,R,R,R,R,R,R,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,R,R,R,R,R,R,R,R,R,R,C,C,C,C,C,C,C,C,C,C",
+        "R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,C,C,C,C,C,R,R,R,R,R,F,F,F,F,F",
+        "C,C,C,C,C,R,R,R,R,R,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,C,C,C,C,C,F,F,F,F,F",
+        "R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,F,F,F,F,F,F,F,F,F,F,C,C,C,C,C,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F",
+        "C,C,C,C,C,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,F,F,F,F,F,C,C,C,C,C,F,F,F,F,F",
+        "F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,C,C,C,C,C,R,R,R,R,R,F,F,F,F,F,C,C,C,C,C,C,C,C,C,C",
+        "C,C,C,C,C,R,R,R,R,R,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,C,C,C,C,C,F,F,F,F,F",
+        "R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,F,F,F,F,F,R,R,R,R,R,C,C,C,C,C,C,C,C,C,C,C,C,C,C,C,R,R,R,R,R,F,F,F,F,F"
+    ],
+    "plannerTimes": [
+        0.140494637,
+        0.000109771,
+        5.546e-05,
+        9.1801e-05,
+        7.9982e-05,
+        0.10944969,
+        6.9393e-05,
+        5.0762e-05,
+        4.4392e-05,
+        4.2623e-05,
+        0.085803405,
+        0.000124347,
+        5.0455e-05,
+        2.3568e-05,
+        5.0451e-05,
+        0.079230612,
+        8.4083e-05,
+        4.4006e-05,
+        8.2296e-05,
+        8.5757e-05,
+        0.088541491,
+        6.8149e-05,
+        9.0786e-05,
+        2.1458e-05,
+        4.2483e-05,
+        0.601786803,
+        6.7377e-05,
+        0.000117241,
+        5.1156e-05,
+        2.5293e-05,
+        0.422783407,
+        8.0957e-05,
+        0.00010042,
+        5.3981e-05,
+        2.4036e-05,
+        0.372507791,
+        8.6089e-05,
+        9.0584e-05,
+        5.0472e-05,
+        8.2285e-05,
+        0.25363115,
+        6.5469e-05,
+        3.7489e-05,
+        4.1426e-05,
+        2.1065e-05,
+        0.24064842,
+        6.9608e-05,
+        0.000100855,
+        3.9603e-05,
+        9.9061e-05
+>>>>>>> ec85d3d713050611ac05d9dd8392340f9d074dab
     ],
     "errors": [
         [
-            11,
-            9,
-            2,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
-            3,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
             4,
-            "vertex conflict"
+            -1,
+            4,
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            4,
+            -1,
             5,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
             9,
-            6,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            -1,
             7,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
             9,
+            -1,
             8,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
             9,
+            -1,
             9,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
             9,
+            -1,
             10,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
-            11,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            16,
+            0,
             12,
             "vertex conflict"
         ],
         [
-            11,
-            9,
+            16,
+            0,
             13,
             "vertex conflict"
         ],
         [
-            11,
-            9,
+            16,
+            0,
             14,
             "vertex conflict"
         ],
         [
-            11,
-            9,
+            16,
+            0,
             15,
             "vertex conflict"
         ],
         [
-            11,
-            9,
-            16,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            1,
+            -1,
             17,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            1,
+            -1,
             18,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            1,
+            -1,
             19,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            1,
+            -1,
             20,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
-            21,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
-            22,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            3,
+            -1,
             23,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            3,
+            -1,
             24,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            3,
+            -1,
             25,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
-            26,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
-            27,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
-            28,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            14,
+            -1,
             29,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            14,
+            -1,
             30,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
-            31,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            8,
+            -1,
             32,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            8,
+            -1,
             33,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            8,
+            -1,
             34,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            8,
+            -1,
             35,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
             11,
-            9,
-            36,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
-            37,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            -1,
             38,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
             11,
-            9,
+            -1,
             39,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
             11,
-            9,
+            -1,
             40,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
-            41,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            10,
+            -1,
             42,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            10,
+            -1,
             43,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            10,
+            -1,
             44,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            10,
+            -1,
             45,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
-            46,
-            "vertex conflict"
-        ],
-        [
-            11,
-            9,
+            13,
+            -1,
             47,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            13,
+            -1,
             48,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            13,
+            -1,
             49,
-            "vertex conflict"
+            "unallowed move"
         ],
         [
-            11,
-            9,
+            13,
+            -1,
             50,
-            "vertex conflict"
+            "unallowed move"
         ]
     ],
     "events": [
@@ -581,6 +588,16 @@
             [
                 11,
                 0,
+                "assigned"
+            ],
+            [
+                11,
+                21,
+                "finished"
+            ],
+            [
+                20,
+                21,
                 "assigned"
             ]
         ],
@@ -741,6 +758,11 @@
             19,
             19,
             15
+        ],
+        [
+            20,
+            20,
+            31
         ]
     ]
 }

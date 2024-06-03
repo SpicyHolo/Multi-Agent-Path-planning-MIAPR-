@@ -34,6 +34,10 @@ class pyMAPFPlanner:
         Args:
             time_limit (_type_): _description_
         """
+        if self.master_plan == []:
+            self.reservations = set()
+            self.master_plan = self.naive_a_star(100)
+        actions = self.master_plan.pop()
 
         # example of only using single-agent search
         return self.naive_a_star(time_limit)
@@ -67,7 +71,10 @@ class pyMAPFPlanner:
                 elif incr == -1 or incr == 3:
                     actions[i] = MAPF.Action.CCR
         # print(actions)
-        actions = [int(a) for a in actions]
+        actions = [np.array([int(a) for a in actions[time]], dtype=int) for time in range(self.K)]
+        actions.reverse()
+        print(actions)
+        return actions
         # print(actions)
         return np.array(actions, dtype=int)
 
@@ -92,9 +99,9 @@ class pyMAPFPlanner:
                     curr = parent[curr]
                 path.pop()
                 path.reverse()
-
                 break
-            neighbors = self.getNeighbors(curr[0], curr[1])
+
+            neighbors = self.getNeighbors(curr[0], curr[1], timestep+1)  
             # print("neighbors=",neighbors)
             for neighbor in neighbors:
                 if (neighbor[0]*4+neighbor[1]) in close_list:
@@ -103,8 +110,15 @@ class pyMAPFPlanner:
                              self.getManhattanDistance(neighbor[0], end))
                 parent[(next_node[0], next_node[1])] = (curr[0], curr[1])
                 open_list.put([next_node[3]+next_node[2], next_node])
-        print(path)
-        return path
+            timestep += 1
+        timestep_temp = start_timestep
+        for i in range(self.W):
+            timestep_temp += 1
+            try:
+                self.reservations.add((path[i][0], timestep_temp))
+            except:
+                continue
+        return path[:self.K]
 
     def getManhattanDistance(self, loc1: int, loc2: int) -> int:
         loc1_x = loc1//self.env.cols
@@ -117,6 +131,8 @@ class pyMAPFPlanner:
         loc_x = loc//self.env.cols
         loc_y = loc % self.env.cols
         if(loc_x >= self.env.rows or loc_y >= self.env.cols or self.env.map[loc] == 1):
+            return False
+        if((loc, timestep) in self.reservations): #check if the loc is occupied by another robot
             return False
         loc2_x = loc2//self.env.cols
         loc2_y = loc2 % self.env.cols

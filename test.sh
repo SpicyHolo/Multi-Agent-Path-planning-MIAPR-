@@ -53,6 +53,7 @@ fi
 echo "Processing './test.out.json'"
 python3 ./test/process.py
 sleep 1
+<<<<<<< HEAD
 
 # If visual flag is set, do something
 if [ "$VISUAL" = true ]; then
@@ -63,3 +64,16 @@ if [ "$VISUAL" = true ]; then
     --plan test/out.json \
     --grid --aid --static --ca
 fi
+=======
+bash ./compile.sh
+echo "Compilation finished."
+sleep 1
+echo "Running small test case"
+sleep 1
+./build/lifelong --inputFile ./example_problems/random.domain/random_20.json \
+    --simulationTime 50 --logFile ./test/log.txt --output ./test/out.json
+echo "Produced: './test/out.json'"
+sleep 1
+echo "Processing file:"
+python3 ./test/process.py
+>>>>>>> ec85d3d713050611ac05d9dd8392340f9d074dab
