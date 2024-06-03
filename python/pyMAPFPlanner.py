@@ -11,6 +11,10 @@ class pyMAPFPlanner:
         if pyenv is not None:
             self.env = pyenv.env
 
+        self.reservations = set()  # {location : timestep} means that location is occupied at timestep
+        self.W = 10
+        self.K = 5
+        self.master_plan = []
         print("pyMAPFPlanner created!  python debug")
 
     def initialize(self, preprocess_time_limit: int):
@@ -40,14 +44,16 @@ class pyMAPFPlanner:
         actions = self.master_plan.pop()
 
         # example of only using single-agent search
-        return self.naive_a_star(time_limit)
+        return actions
+        return self.sample_priority_planner(time_limit)
         # print("python binding debug")
         # print("env.rows=",self.env.rows,"env.cols=",self.env.cols,"env.map=",self.env.map)
         # raise NotImplementedError("YOU NEED TO IMPLEMENT THE PYMAPFPLANNER!")
 
     def naive_a_star(self,time_limit):
         print("I am planning")
-        actions = [MAPF.Action.W for i in range(len(self.env.curr_states))]
+        actions = [[MAPF.Action.W for i in range(len(self.env.curr_states))] for _ in range(self.K)]
+        start_timestep = self.env.curr_timestep
         for i in range(0, self.env.num_of_agents):
             print("python start plan for agent ", i, end=" ")
             path = []
@@ -58,28 +64,30 @@ class pyMAPFPlanner:
             else:
                 print(" with start and goal: ", end=" ")
                 path = self.single_agent_plan(
-                    self.env.curr_states[i].location, self.env.curr_states[i].orientation, self.env.goal_locations[i][0][0])
+                    self.env.curr_states[i].location, self.env.curr_states[i].orientation, self.env.goal_locations[i][0][0], start_timestep)
 
             print("current location:", path[0][0],
                   "current direction: ", path[0][1])
-            if path[0][0] != self.env.curr_states[i].location:
-                actions[i] = MAPF.Action.FW
-            elif path[0][1] != self.env.curr_states[i].orientation:
-                incr = path[0][1]-self.env.curr_states[i].orientation
-                if incr == 1 or incr == -3:
-                    actions[i] = MAPF.Action.CR
-                elif incr == -1 or incr == 3:
-                    actions[i] = MAPF.Action.CCR
+            for time in range(self.K):
+                if path[0][0] != self.env.curr_states[i].location:
+                    actions[time][i] = MAPF.Action.FW
+                elif path[0][1] != self.env.curr_states[i].orientation:
+                    incr = path[0][1]-self.env.curr_states[i].orientation
+                    if incr == 1 or incr == -3:
+                        actions[time][i] = MAPF.Action.CR
+                    elif incr == -1 or incr == 3:
+                        actions[time][i] = MAPF.Action.CCR
         # print(actions)
         actions = [np.array([int(a) for a in actions[time]], dtype=int) for time in range(self.K)]
         actions.reverse()
         print(actions)
         return actions
         # print(actions)
-        return np.array(actions, dtype=int)
+        # return np.array(actions, dtype=int)
 
-    def single_agent_plan(self, start: int, start_direct: int, end: int):
+    def single_agent_plan(self, start: int, start_direct: int, end: int, start_timestep: int):
         print(start, start_direct, end)
+        timestep = start_timestep
         path = []
         # AStarNode (u,dir,t,f)
         open_list = PriorityQueue()
@@ -127,7 +135,7 @@ class pyMAPFPlanner:
         loc2_y = loc2 % self.env.cols
         return abs(loc1_x-loc2_x)+abs(loc1_y-loc2_y)
 
-    def validateMove(self, loc: int, loc2: int) -> bool:
+    def validateMove(self, loc: int, loc2: int, timestep :int) -> bool:
         loc_x = loc//self.env.cols
         loc_y = loc % self.env.cols
         if(loc_x >= self.env.rows or loc_y >= self.env.cols or self.env.map[loc] == 1):
@@ -140,14 +148,14 @@ class pyMAPFPlanner:
             return False
         return True
 
-    def getNeighbors(self, location: int, direction: int):
+    def getNeighbors(self, location: int, direction: int, timestep: int):
         neighbors = []
         # forward
         candidates = [location+1, location+self.env.cols,
                       location-1, location-self.env.cols]
         forward = candidates[direction]
         new_direction = direction
-        if (forward >= 0 and forward < len(self.env.map) and self.validateMove(forward, location)):
+        if (forward >= 0 and forward < len(self.env.map) and self.validateMove(forward, location, timestep)):
             neighbors.append((forward, new_direction))
         # turn left
         new_direction = direction-1
@@ -272,6 +280,7 @@ class pyMAPFPlanner:
                     t += 1
 
         return actions
+
 
 
 
