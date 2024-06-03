@@ -15,4 +15,4 @@ sleep 1
 echo "Produced: './test/out.json'"
 sleep 1
 echo "Processing file:"
-python ./test/process.py
+python3 ./test/process.py
