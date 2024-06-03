@@ -25,10 +25,8 @@ class pyMAPFPlanner:
             preprocess_time_limit (_type_): _description_
         """
         pass
-        # testlib.test_torch()
         print("planner initialize done... python debug")
         return True
-        # raise NotImplementedError()
 
     def plan(self, time_limit):
         """_summary_
@@ -45,26 +43,24 @@ class pyMAPFPlanner:
             for i in range(len(self.env.curr_states)):
                 for j in range(self.K):
                     self.reservations.add((self.env.curr_states[i].location, self.env.curr_timestep + j))
-            self.master_plan = self.naive_a_star(100)
+            self.master_plan = self.whcr_star(100)
         try:
             actions = self.master_plan.pop()
         except:
             [MAPF.Action.W for i in range(len(self.env.curr_states))] 
-        # example of only using single-agent search
-        return actions
-        return self.sample_priority_planner(time_limit)
-        # print("python binding debug")
-        # print("env.rows=",self.env.rows,"env.cols=",self.env.cols,"env.map=",self.env.map)
-        # raise NotImplementedError("YOU NEED TO IMPLEMENT THE PYMAPFPLANNER!")
-    
 
-    def naive_a_star(self,time_limit):
-        # print("I am planning")
+        return actions
+    
+    def whcr_star(self,time_limit):
         print(self.env.curr_timestep)
         actions = [[MAPF.Action.W for i in range(len(self.env.curr_states))] for _ in range(self.K)]
         start_timestep = self.env.curr_timestep
-        for i in range(0, self.env.num_of_agents):
-            # print("python start plan for agent ", i, end=" ")
+
+        # Randomize robot priority
+        indices = list(range(self.env.num_of_agents))
+        np.random.shuffle(indices)
+
+        for i in range(0, self.env.num_of_agents): #indices:
             self.robot_nr = i
             path = []
             if len(self.env.goal_locations[i]) == 0:
