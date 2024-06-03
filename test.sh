@@ -50,7 +50,7 @@ if [ "$PLAN" = true ]; then
     echo "Generated: './test/out.json'"
   sleep 1
 fi
-echo "Processing './test.out.json'"
+echo "Processing './test/out.json'"
 python3 ./test/process.py
 sleep 1
 

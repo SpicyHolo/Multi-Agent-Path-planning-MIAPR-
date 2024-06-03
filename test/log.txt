@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-[2024-06-03 14:28:03.940723]: *info* [timestep=0] Preprocessing success
-=======
-[2024-06-03 13:58:17.301779]: *info* [timestep=0] Preprocessing success
->>>>>>> ec85d3d713050611ac05d9dd8392340f9d074dab
+[2024-06-03 14:49:23.093683]: *info* [timestep=0] Preprocessing success
