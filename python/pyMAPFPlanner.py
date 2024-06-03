@@ -11,7 +11,7 @@ class pyMAPFPlanner:
         if pyenv is not None:
             self.env = pyenv.env
 
-        self.reservations = set()  # {location : timestep} means that location is occupied at timestep
+        self.reservations = set()  # {(location, timestep)} means that location is occupied at timestep
         self.W = 10
         self.K = 5
         self.master_plan = []
@@ -40,6 +40,9 @@ class pyMAPFPlanner:
         """
         if self.master_plan == []:
             self.reservations = set()
+            for i in range(len(self.env.curr_states)):
+                self.reservations.add((self.env.curr_states[i].location, self.env.curr_timestep + 1))
+                self.reservations.add((self.env.curr_states[i].location, self.env.curr_timestep))
             self.master_plan = self.naive_a_star(100)
         actions = self.master_plan.pop()
 
@@ -49,6 +52,7 @@ class pyMAPFPlanner:
         # print("python binding debug")
         # print("env.rows=",self.env.rows,"env.cols=",self.env.cols,"env.map=",self.env.map)
         # raise NotImplementedError("YOU NEED TO IMPLEMENT THE PYMAPFPLANNER!")
+    
 
     def naive_a_star(self,time_limit):
         print("I am planning")
@@ -56,6 +60,7 @@ class pyMAPFPlanner:
         start_timestep = self.env.curr_timestep
         for i in range(0, self.env.num_of_agents):
             print("python start plan for agent ", i, end=" ")
+            self.robot_nr = i
             path = []
             if len(self.env.goal_locations[i]) == 0:
                 print(i, " does not have any goal left", end=" ")
@@ -69,14 +74,30 @@ class pyMAPFPlanner:
             print("current location:", path[0][0],
                   "current direction: ", path[0][1])
             for time in range(self.K):
-                if path[0][0] != self.env.curr_states[i].location:
-                    actions[time][i] = MAPF.Action.FW
-                elif path[0][1] != self.env.curr_states[i].orientation:
-                    incr = path[0][1]-self.env.curr_states[i].orientation
-                    if incr == 1 or incr == -3:
-                        actions[time][i] = MAPF.Action.CR
-                    elif incr == -1 or incr == 3:
-                        actions[time][i] = MAPF.Action.CCR
+                if len(path) <= time:
+                    break
+                if time == 0:
+                    if path[time][0] != self.env.curr_states[i].location:
+                        actions[time][i] = MAPF.Action.FW
+                    elif path[time][1] != self.env.curr_states[i].orientation:
+                        incr = path[time][1]-self.env.curr_states[i].orientation
+                        if incr == 1 or incr == -3:
+                            actions[time][i] = MAPF.Action.CR
+                        elif incr == -1 or incr == 3:
+                            actions[time][i] = MAPF.Action.CCR
+                else:
+                    try:
+                        if path[time][0] != path[time - 1][0]:
+                            actions[time][i] = MAPF.Action.FW
+                        elif path[time][1] != path[time-1][1]:
+                            incr = path[time][1] - path[time-1][1]
+                            if incr == 1 or incr == -3:
+                                actions[time][i] = MAPF.Action.CR
+                            elif incr == -1 or incr == 3:
+                                actions[time][i] = MAPF.Action.CCR
+                    except:
+                        print(path)
+                        print(time)
         # print(actions)
         actions = [np.array([int(a) for a in actions[time]], dtype=int) for time in range(self.K)]
         actions.reverse()
@@ -91,14 +112,16 @@ class pyMAPFPlanner:
         path = []
         # AStarNode (u,dir,t,f)
         open_list = PriorityQueue()
-        s = (start, start_direct, 0, self.getManhattanDistance(start, end))
+        s = (start, start_direct, 0, self.getManhattanDistance(start, end), timestep)
         open_list.put([0, s])
         all_nodes = dict()
         close_list = set()
         parent = {(start, start_direct): None}
         all_nodes[start*4+start_direct] = s
         while not open_list.empty():
+
             curr = (open_list.get())[1]
+            timestep = curr[4]
             close_list.add(curr[0]*4+curr[1])
             if curr[0] == end:
                 curr = (curr[0], curr[1])
@@ -109,23 +132,24 @@ class pyMAPFPlanner:
                 path.reverse()
                 break
 
-            neighbors = self.getNeighbors(curr[0], curr[1], timestep+1)  
+            neighbors = self.getNeighbors(curr[0], curr[1], timestep + 1)  
             # print("neighbors=",neighbors)
             for neighbor in neighbors:
                 if (neighbor[0]*4+neighbor[1]) in close_list:
                     continue
                 next_node = (neighbor[0], neighbor[1], curr[2]+1,
-                             self.getManhattanDistance(neighbor[0], end))
+                             self.getManhattanDistance(neighbor[0], end), curr[4] + 1)
                 parent[(next_node[0], next_node[1])] = (curr[0], curr[1])
                 open_list.put([next_node[3]+next_node[2], next_node])
-            timestep += 1
+            
         timestep_temp = start_timestep
         for i in range(self.W):
             timestep_temp += 1
             try:
                 self.reservations.add((path[i][0], timestep_temp))
+                self.reservations.add((path[i][0], timestep_temp - 1))
             except:
-                continue
+                self.reservations.add((path[-1][0], timestep_temp))
         return path[:self.K]
 
     def getManhattanDistance(self, loc1: int, loc2: int) -> int:
@@ -138,7 +162,11 @@ class pyMAPFPlanner:
     def validateMove(self, loc: int, loc2: int, timestep :int) -> bool:
         loc_x = loc//self.env.cols
         loc_y = loc % self.env.cols
+
         if(loc_x >= self.env.rows or loc_y >= self.env.cols or self.env.map[loc] == 1):
+            if (self.robot_nr == 4):
+                print(self.env.map[loc])
+                print(loc_x, loc_y)
             return False
         if((loc, timestep) in self.reservations): #check if the loc is occupied by another robot
             return False
