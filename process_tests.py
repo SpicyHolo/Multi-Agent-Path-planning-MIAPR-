@@ -89,11 +89,11 @@ def main():
     fig = plt.figure(figsize=(10, 6))
     for i,field in enumerate(['tasks', 't_avg', 'cost', 'errors']):
         plt.subplot(2, 2, i+1)
-        plot(rand['sizes'], rand[field], 'WHCA*')
-        plot(rand_st['sizes'], rand_st[field], 'spacetime')
+        plot(wh['sizes'], wh[field], 'WHCA*')
+        plot(wh_st['sizes'], wh_st[field], 'spacetime')
         plt.legend()
         plt.grid()
-        plt.xlim((20,800))
+        plt.xlim((10,800))
         plt.xlabel("number of agents")
         plt.ylabel(field)
         plt.suptitle('Random map')
@@ -106,7 +106,7 @@ def main():
         plt.legend(fontsize=10)
         plt.tight_layout()
     plt.show()
-    fig.savefig(f'./figs/rand.png', dpi=300, bbox_inches='tight')
+    fig.savefig(f'./figs/wh.png', dpi=300, bbox_inches='tight')
 
 if __name__ == '__main__':
     main()
