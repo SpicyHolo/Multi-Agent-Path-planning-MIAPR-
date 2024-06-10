@@ -1,109 +1,54 @@
-# Start-Kit
+Original repo's readme is located at: [Description.md](./Description.md)
 
-## Join the competition
+## Project description
+The project's goal is to write a path finding algorithm for multiple agents according to rules set by the *leagueofrobotrunners* competition.
 
-Log in to the [competition website](http://www.leagueofrobotrunners.org/) with a GitHub account, and we will automatically create a private GitHub submission repo for you.
-The repo will be the place where you submit codes. In the `My Submission` page, you can click "My Repo" to open your GitHub submission repo page.
+The setting is pretty simple, robots are placed on a grid map, and are each given a target location to reach, the goal is to find an optimal control strategy in under $t=1s$. After reaching the target, the robots get a new goal, and the show continues.
 
-## Clone your submission repo
+Our goal was implementing an algorithm that solves problem of finding paths for multiple agents. The problem is described in detail on competition from which this project is based on ([competition website](http://www.leagueofrobotrunners.org/)). 
 
-Clone your submission repo to your local machine. The repo contains starter codes to help you prepare your submission.
+### Trying a naive $A^*$ approach
+he basic approach was to implement a classic $A^*$ algorithm for each agent independently, and hope It works. \
+**Well, it doesn't.**
+The problem is when two robots want to go to the same square at the same time, so a collission occurs.
 
-```
-$ git clone git@github.com:your_submission_repo_address
-$ cd your_submission_repo
-```
+### Avoiding collisions
+So we need a planning algorithm that will actually prevent robot's from colliding, for this we need to be able to predict other agent's future locations in our graph search. So we add the time dimension to the state space, hence the idea of space-time space is born.
 
-## Compile the start-kit
+The planning is conducted for each agent one by one and the planned path is added to the reservation table which hold the position the agent takes at some point in time. Planning for the next agents is conducted with taking this information into consideration, where the first agents to plan, are basically given priority. (since the reservation table is empty at first, so they're able to plan more freely).
 
-### Dependencies
+The problem is that planning becomes harder as more agents reserve their spots and new agents have a hard time finding path. Also searching the whole space-time graph is very computationally haeavy and doesn't scale well for bigger maps with more agents.
 
-- [cmake >= 3.16](https://cmake.org/)
-- [libboost >= 1.49.0](https://www.boost.org/)
-- Python3 and [pybind11](https://pybind11.readthedocs.io/en/stable/) (for python interface user)
+*Solution?*\
+$\text{WHCA}^*$
 
-Install dependencies on Ubuntu or Debian Linux:
-```shell
-sudo apt-get update
-sudo apt-get install build-essential libboost-all-dev python3-dev python3-pybind11 
-```
+## $\text{WHCA}^*$ overview
 
-[Homebrew](https://brew.sh/) is recomanded for installing dependencies on Mac OS.
-
-### Compiling
-
-Using `compile.sh`:
-```shell
-./compile.sh
-```
-
-Using cmake: 
-```shell
-mkdir build
-cmake -B build ./ -DCMAKE_BUILD_TYPE=Release
-make -C build -j
-```
-
-## Run the start kit
-
-Running the start-kit using commands: 
-```shell
-./build/lifelong --inputFile the_input_file_name -o output_file_location
-```
-
-for example:
-```shell
-./build/lifelong --inputFile ./example_problems/random.domain/random_20.json -o test.json
-```
-
-more info on help:
-```shell
-./build/lifelong --help
-```
-
-## Windows users
-If you are a Windows user, the most straightforward method to utilize our start-kits is by employing the WSL (Windows Subsystem for Linux) subsystem. Follow these steps:
-1. Install WSL, please refer to [https://learn.microsoft.com/en-us/windows/wsl/install](https://learn.microsoft.com/en-us/windows/wsl/install)
-2. Open a shell in WSL and execute the following commands to install the necessary tools (CMake, GCC, Boost, pip, Pybind11):
-```shell
-sudo apt-get update
-sudo apt-get install cmake g++ libboost-all-dev python3-pip python3-pybind11 
-```
-3. Employ the commands provided above to compile the start-kit.
-
-While it's technically possible to use our start-kit with Cygwin, Mingw, and MSVC, doing so would be more complex compared to using WSL. You would likely need to configure the environment yourself.
-
-## Upgrade Your Start-Kit
-
-If your private start-kit copy repo was created before a start-kit upgrade, you could run the `./upgrade_start_kit.sh` to upgrade your start-kit to the latest version.
-
-You can check `version.txt` to know the current version of your start-kit.
-
-The `upgrade_start_kit.sh` will check which file is marked as an upgrade needed and pull those files from the start-kit. It will pull and stage the files, but not commit them. This allows you to review the changes before committing them. 
-
-For files stated as unmodifiable in [Parepare_Your_Planner.md](./Prepare_Your_Planner.md), you always commit their changes.
-
-The upgrade may overwrite some of your changes to `CMakeLists.txt`, `compile.sh`, and `apt.txt`, you could compare the difference using `git diff` and decide whether to revert some modifications or partially accept changes on these files.
-
-The upgrade script will not touch any participants' created file, `python/pyMAPFPlanner.py`, `inc/MAPFPlanner.h` and `src/MAPFPlanner.cpp`. So that participants' implementations should not be influenced by the start-kit upgrade.
-
-## Input output description
-
-Please refer to the [Input_Output_Format.md](./Input_Output_Format.md).
-
-## Prepare Your Planner
-
-Please refer to the [Prepare_Your_Planner.md](./Prepare_Your_Planner.md).
-
-## Debug and Visualise Your Planner
-We provide a visualisation tool written in Python: [https://github.com/MAPF-Competition/PlanViz](https://github.com/MAPF-Competition/PlanViz).
-It is able to visualise the output of the start-kit program and help participants debug the implementations. 
-
-Please refer to the project website for more information. Also the document [Debug_and_Visualise_Your_Planner](./Debug_and_Visualise_Your_Planner.md) which provides helpful hints for interpreting and diagnosing planner output.
-
-## Submission Instruction
-
-Please refer to the [Submission_Instruction.md](./Submission_Instruction.md).
+So what WHCA* does?\
+It also finds the paths for agents using A*.\
+It also makes the reservation.\
+The main difference is that WHCA* doesn't add all pathsto the reservation table. TIt only add first W places. The number W is choosen arbitraly. Moreover the planned path is only executed for K steps (K is also choosen arbitraly and it is sugessed that K = W/2). After makeing K steps the reservation table is creard and the algorith plan paths again.\
+Our implementation has a few changes in comparison with ther original one:
+- when the robot is stuck and doesn't have any valid move, after one step, the path is planned again
+- When the robot reaches the goal the planning is conducted again
+- reservation is added not only for the current place at this time, but also for the next time step.
 
 
+The implementation was based on:
+- Stern, Roni. (2019). Multi-Agent Path Finding – An Overview. 10.1007/978-3-030-33274-7_6. 
+- Z. Bnaya and A. Felner, "Conflict-Oriented Windowed Hierarchical Cooperative A*," 2014 IEEE International Conference on Robotics and Automation (ICRA), Hong Kong, China, 2014, pp. 3743-3748, doi: 10.1109/ICRA.2014.6907401.
 
+## Perforamnce comparison
+To compare the performance of the planning policies, we ran a series of benchmarks on provided example problems. We compare performance of two algorithms, WHCA* and complete spacetime priority planner, mentioned earlier.
+
+We use the following metrices:
+- $N$ - number of tasks finished
+- $t_{max}$ - The longest planning time
+- $t_{avg}$ - The average planning time
+- $e$ - number of errors (ex. collisions)
+- $L$ - sum of costs
+
+<img src="./figs/rand.png" alt="Plot comparing two algorithms" width="900px">
+<img src="./figs/wh.png" alt="Plot comparing two algorithms" width="900px">
+
+There is a clearly visible improvement over spacetime prioritty planner method, basically in every metric. However both algorithms take too much time on bigger maps.

@@ -158,7 +158,7 @@ if [ "$PLAN" = true ]; then
   sleep 1
 
   ./build/lifelong --inputFile "$PROBLEM_PATH" \
-    --simulationTime 50 \
+    --simulationTime 200 \
     --logFile ./test/log.txt \
     --output ./test/out.json
 
