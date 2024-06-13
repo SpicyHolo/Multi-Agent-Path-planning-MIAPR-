@@ -27,7 +27,7 @@ $\text{WHCA}^*$
 So what WHCA* does?\
 It also finds the paths for agents using A*.\
 It also makes the reservation.\
-The main difference is that WHCA* doesn't add all pathsto the reservation table. TIt only add first W places. The number W is choosen arbitraly. Moreover the planned path is only executed for K steps (K is also choosen arbitraly and it is sugessed that K = W/2). After makeing K steps the reservation table is creard and the algorith plan paths again.\
+The main difference is that WHCA* doesn't add all paths to the reservation table. It only add first W places. The number W is choosen arbitraly. Moreover the planned path is only executed for K steps (K is also choosen arbitraly and it is sugessed that K = W/2). After makeing K steps the reservation table is cleared and the algorith plan paths again.\
 Our implementation has a few changes in comparison with ther original one:
 - when the robot is stuck and doesn't have any valid move, after one step, the path is planned again
 - When the robot reaches the goal the planning is conducted again
@@ -52,3 +52,12 @@ We use the following metrices:
 <img src="./figs/wh.png" alt="Plot comparing two algorithms" width="900px">
 
 There is a clearly visible improvement over spacetime prioritty planner method, basically in every metric. However both algorithms take too much time on bigger maps.
+
+
+## How to run?
+To run the planning software with the visualization software you have to clone this repo and clone the repo that visualize planned paths ([visualizer](https://github.com/MAPF-Competition/PlanViz)).\
+../\
+|--MULTI-AGENT-PATH-PLANNING-MIAPR-\
+|--PlanViz\
+These shoud be in the same folder.\
+Now within MULTI-AGENT-PATH-PLANNING-MIAPR folder is test.sh file that needs to be run from MULTI-AGENT-PATH-PLANNING-MIAPR 
