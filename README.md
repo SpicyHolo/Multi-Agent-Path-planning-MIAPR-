@@ -60,4 +60,4 @@ To run the planning software with the visualization software you have to clone t
 |--MULTI-AGENT-PATH-PLANNING-MIAPR-\
 |--PlanViz\
 These shoud be in the same folder.\
-Now within MULTI-AGENT-PATH-PLANNING-MIAPR folder is test.sh file that needs to be run from MULTI-AGENT-PATH-PLANNING-MIAPR 
+Now within MULTI-AGENT-PATH-PLANNING-MIAPR folder is test.sh file that needs to be run from there. The description how to use it is in the begginig of a file. The number of simulated steps is determined by 161st line.
